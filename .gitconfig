@@ -1,0 +1,20 @@
+[core]
+  whitespace = trailing-space,space-before-tab
+	excludesfile = /.vscode
+[apply]
+  whitespace = fix
+[url "https://"]
+	insteadOf = git://
+[alias]
+  # Get the current branch name (not so useful in itself, but used in
+	# other aliases)
+	branch-name = "!git rev-parse --abbrev-ref HEAD"
+	# Push the current branch to the remote "origin", and set it to track
+	# the upstream branch
+	publish = "!git push -u origin $(git branch-name)"
+	amend = commit --amend --no-edit
+  lb = !git reflog show --pretty=format:'%gs ~ %gd' --date=relative | grep 'checkout:' | grep -oE '[^ ]+ ~ .*' | awk -F~ '!seen[$1]++' | head -n 10 | awk -F' ~ HEAD@{' '{printf(\"  \\033[33m%s: \\033[32m %s\\033[0m\\n\", substr($2, 1, length($2)-1), $1)}'
+	rename = branch -m
+	conflicts = diff --name-only --diff-filter=U
+[init]
+	defaultBranch = main
